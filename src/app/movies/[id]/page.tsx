@@ -23,7 +23,10 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
                 <p className="text-gray-700 mb-4">{movieDetail?.description}</p>
                 <p className="text-gray-700 mb-4">Price: Rp.{movieDetail?.price}</p>
 
-                <ChooseSeatButton movieId={movieDetail.id} />
+                <ChooseSeatButton 
+                    movieId={movieDetail.id}
+                    showtimes={movieDetail.showtimes}
+                />
 
             </div>
 

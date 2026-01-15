@@ -9,6 +9,7 @@
       "img": "/inception.jpg",
       "duration": 148,
       "description": "A skilled thief enters people's dreams to steal secrets, but his final mission requires planting an idea deep inside a target's mind.",
+      "showtimes": ["13:00", "16:30", "20:00"],
       "price": 35000
     },
     {
@@ -21,6 +22,7 @@
       "img": "/shawshank.jpg",
       "duration": 142,
       "description": "A banker wrongly imprisoned forms a deep friendship and quietly plans a long path toward hope and freedom.",
+      "showtimes": ["12:00", "15:00", "18:30"],
       "price": 35000
     },
     {
@@ -33,6 +35,7 @@
       "img": "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
       "duration": 175,
       "description": "The powerful Corleone family faces betrayal, loyalty, and violence as the youngest son is drawn into the world of organized crime.",
+      "showtimes": ["11:30", "15:30", "19:30"],
       "price": 50000
     },
     {
@@ -45,6 +48,7 @@
       "img": "https://m.media-amazon.com/images/I/81AJdOIEIhL._AC_UF894,1000_QL80_.jpg",
       "duration": 152,
       "description": "Batman faces his greatest challenge when the Joker unleashes chaos across Gotham, pushing the hero to his moral limits.",
+      "showtimes": ["13:30", "17:00", "20:30"],
       "price": 35000
     },
     {
@@ -57,6 +61,7 @@
       "img": "https://media.themoviedb.org/t/p/w600_and_h900_face/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
       "duration": 169,
       "description": "A team of astronauts travels through a wormhole in search of a new home for humanity as Earth slowly becomes uninhabitable.",
+      "showtimes": ["12:30", "16:00", "19:45"],
       "price": 50000
     },
     {
@@ -69,6 +74,7 @@
       "img": "https://media.themoviedb.org/t/p/w600_and_h900_face/ctboIRYQHYJMge6M6fgcwrhREsj.jpg",
       "duration": 111,
       "description": "Based on the manga series Detective Conan by Gosho Aoyama. Conan is pulled into a high-stakes case involving hidden treasure, deadly traps, and a mysterious figure tied to the past.",
+      "showtimes": ["10:00", "13:00", "16:00", "19:00"],
       "price": 35000
     }
   ]
