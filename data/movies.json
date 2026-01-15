@@ -1,0 +1,75 @@
+[
+    {
+      "id": 1,
+      "title": "Inception",
+      "year": 2010,
+      "genre": ["Action", "Sci-Fi", "Thriller"],
+      "director": "Christopher Nolan",
+      "rating": 8.8,
+      "img": "/inception.jpg",
+      "duration": 148,
+      "description": "A skilled thief enters people's dreams to steal secrets, but his final mission requires planting an idea deep inside a target's mind.",
+      "price": 35000
+    },
+    {
+      "id": 2,
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "genre": ["Drama"],
+      "director": "Frank Darabont",
+      "rating": 9.3,
+      "img": "/shawshank.jpg",
+      "duration": 142,
+      "description": "A banker wrongly imprisoned forms a deep friendship and quietly plans a long path toward hope and freedom.",
+      "price": 35000
+    },
+    {
+      "id": 3,
+      "title": "The Godfather",
+      "year": 1972,
+      "genre": ["Crime", "Drama"],
+      "director": "Francis Ford Coppola",
+      "rating": 9.2,
+      "img": "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+      "duration": 175,
+      "description": "The powerful Corleone family faces betrayal, loyalty, and violence as the youngest son is drawn into the world of organized crime.",
+      "price": 50000
+    },
+    {
+      "id": 4,
+      "title": "The Dark Knight",
+      "year": 2008,
+      "genre": ["Action", "Crime", "Drama"],
+      "director": "Christopher Nolan",
+      "rating": 9.0,
+      "img": "https://m.media-amazon.com/images/I/81AJdOIEIhL._AC_UF894,1000_QL80_.jpg",
+      "duration": 152,
+      "description": "Batman faces his greatest challenge when the Joker unleashes chaos across Gotham, pushing the hero to his moral limits.",
+      "price": 35000
+    },
+    {
+      "id": 5,
+      "title": "Interstellar",
+      "year": 2014,
+      "genre": ["Sci-Fi", "Drama", "Adventure"],
+      "director": "Christopher Nolan",
+      "rating": 8.7,
+      "img": "https://media.themoviedb.org/t/p/w600_and_h900_face/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+      "duration": 169,
+      "description": "A team of astronauts travels through a wormhole in search of a new home for humanity as Earth slowly becomes uninhabitable.",
+      "price": 50000
+    },
+    {
+      "id": 6,
+      "title": "Detective Conan: The Million-dollar Pentagram",
+      "year": 2024,
+      "genre": ["Mystery", "Detective", "Action"],
+      "director": "Chika Nagaoka",
+      "rating": 8.5,
+      "img": "https://media.themoviedb.org/t/p/w600_and_h900_face/ctboIRYQHYJMge6M6fgcwrhREsj.jpg",
+      "duration": 111,
+      "description": "Based on the manga series Detective Conan by Gosho Aoyama. Conan is pulled into a high-stakes case involving hidden treasure, deadly traps, and a mysterious figure tied to the past.",
+      "price": 35000
+    }
+  ]
+  
