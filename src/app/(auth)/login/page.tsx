@@ -5,10 +5,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { setCookie, isAuthenticated } from "../../lib/auth";
-import movies from "../../../../data/movies.json";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import { login } from "../../lib/api"
+import { login, getMovies } from "../../lib/api"
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -16,6 +15,9 @@ export default function LoginPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const [movies, setMovies] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     
     // check if already logged in
     useEffect(() => {
@@ -90,6 +92,22 @@ export default function LoginPage() {
           alert('Login failed');
         }
       };
+
+      useEffect(() => {
+        async function fetchMovies() {
+              try {
+                const data = await getMovies();
+                setMovies(data); // hanya movie dari database
+              } catch (err) {
+                console.error(err);
+                alert("Failed to load movies");
+              } finally {
+                setLoading(false);
+              }
+            }
+        
+            fetchMovies();
+          }, [router]);
 
     return (
 
