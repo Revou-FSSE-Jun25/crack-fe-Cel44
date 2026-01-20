@@ -7,7 +7,7 @@ import { getMovieById, updateMovie } from "../../../lib/api";
 export default function EditMoviePage() {
   const router = useRouter();
   const params = useParams(); // ambil id dari URL
-  const movieId = params.id;
+  const movieId = params.id as string;
 
   // State form
   const [title, setTitle] = useState("");
@@ -24,7 +24,7 @@ export default function EditMoviePage() {
     async function fetchMovie() {
         try {
             const token = localStorage.getItem("token");
-            const data = await getMovieById(movieId, token);
+            const data = await getMovieById(movieId, token!);
             setTitle(data.title);
             setYear(data.year.toString());
             setDirector(data.director);
@@ -54,7 +54,7 @@ export default function EditMoviePage() {
             genre: genre.split(",").map((g) => g.trim()),
             description,
             img,
-        }, token);
+        });
 
         alert("Movie updated successfully!");
         router.push("/admin");

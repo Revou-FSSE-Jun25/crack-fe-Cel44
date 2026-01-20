@@ -33,9 +33,9 @@ export default function ChooseSeatButton({ movieId, showtimes, movieTitle }: Pro
             {showtimes.map((st) => (
              <button
              key={st.id}
-             onClick={() => setSelectedShowtimeId(st.id)}
+             onClick={() => setSelectedShowtimeId(st.id.toString())}
              className={`px-4 py-2 rounded border ${
-               selectedShowtimeId === st.id ? "border-red-500 text-red-500" : "border-gray-300"
+               selectedShowtimeId === st.id.toString() ? "border-red-500 text-red-500" : "border-gray-300"
              }`}
            >
              {new Date(st.time).toLocaleString()} - Rp.{st.price}

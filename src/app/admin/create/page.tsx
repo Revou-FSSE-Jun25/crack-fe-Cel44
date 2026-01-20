@@ -28,7 +28,7 @@ export default function CreateMoviePage(){
             year: Number(form.year.value),
             director: form.director.value,
             duration: Number(form.duration.value),
-            genre: form.genre.value.split(",").map(e => e.trim()),
+            genre: form.genre.value.split(",").map((e: string) => e.trim()),
             description: form.description.value,
             img: form.img.value,
         });

@@ -41,7 +41,7 @@ export default function SeatSelectionPage() {
 
         async function fetchSeats() {
             try {
-                const data = await getShowtimeSeats(showtimeId, token);
+                const data = await getShowtimeSeats(showtimeId, token!);
                 setSeats(data.seats);
                 setShowtime({ id: data.id, time: data.time, price: data.price, movieId: data.movieId });
                 
