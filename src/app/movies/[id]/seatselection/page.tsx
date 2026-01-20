@@ -1,59 +1,115 @@
 "use client";
 
-import { useState } from "react";
-import BuyTicketButton from "../../../component/buyticketbutton";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { createBooking } from "../../../lib/api"; // API function untuk booking
+import { getShowtimeSeats } from "../../../lib/api"; // API function fetch seats
+
+type SeatType = {
+    id: number;
+    seatNumber: string;
+    isBooked: boolean;
+};
+
+type ShowtimeType = {
+    id: number;
+    time: string;
+    price: number;
+    movieId: number;
+};
 
 export default function SeatSelectionPage() {
-    const rows = 8;
-    const seatsPerRow = 8;
-    const aisleRow = 4;
+    const params = useSearchParams();
+    const router = useRouter();
+    const showtimeId = Number(params.get("time"));
 
+    const [seats, setSeats] = useState<SeatType[]>([]);
+    const [showtime, setShowtime] = useState<ShowtimeType | null>(null);
     const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    function toggleSeat(seatNumber: number) {
-        setSelectedSeats((prev) =>
-        prev.includes(seatNumber)
-            ? prev.filter((s) => s !== seatNumber)
-            : [...prev, seatNumber]
-        );
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem("token"));
+      }, []);
+
+    
+    useEffect(() => {
+        if (!showtimeId || !token) return;
+
+        async function fetchSeats() {
+            try {
+                const data = await getShowtimeSeats(showtimeId, token);
+                setSeats(data.seats);
+                setShowtime({ id: data.id, time: data.time, price: data.price, movieId: data.movieId });
+                
+            } catch (err: any) {
+                console.error(err);
+                setError(err.message || "Failed to fetch seats");
+
+            } finally {
+                setLoading(false);
+            }
+            }
+
+        fetchSeats();
+    }, [showtimeId, token]);
+    
+
+    function toggleSeat(seatId: number) {
+        const seat = seats.find(s => s.id === seatId);
+        if (!seat || seat.isBooked) return;
+
+        if (selectedSeats.includes(seatId)) {
+        setSelectedSeats(selectedSeats.filter(id => id !== seatId));
+        } else {
+        setSelectedSeats([...selectedSeats, seatId]);
+        }
     }
 
+    async function handleConfirmBooking() {
+        if (!showtime) return;
+    
+        router.push(
+        `/payment?moveiId=${showtime.movieId}&showtimeId=${showtimeId}&seats=${selectedSeats.join(",")}`
+        );
+    }
+      
+
+    if (loading) return <p>Loading seats...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+    if (!showtime) return <p>Showtime not found</p>;
+
     return (
-        <main className="py-20 px-20 flex flex-col items-center min-h-screen">
+        <main className="py-20 px-10">
+        <h1 className="text-2xl font-bold mb-4">Select Seats</h1>
+        <p className="mb-4">
+            Showtime: {new Date(showtime.time).toLocaleString()} | Price per seat: Rp.{showtime.price}
+        </p>
 
-            {/* Garis penanda layar bioskop */}
-            <div className="w-full h-8 bg-gray-800 mb-12 flex items-center justify-center text-white">
-                Screen
+        <div className="grid grid-cols-8 gap-2 mb-4">
+            {seats.map(seat => (
+            <div
+                key={seat.id}
+                onClick={() => toggleSeat(seat.id)}
+                className={`w-10 h-10 flex items-center justify-center rounded cursor-pointer 
+                ${seat.isBooked ? "bg-gray-400 cursor-not-allowed" :
+                    selectedSeats.includes(seat.id) ? "bg-green-500 text-white" : "bg-white border"}`}
+            >
+                {seat.seatNumber}
             </div>
+            ))}
+        </div>
 
-            {/* Seats */}
-            <div className="grid grid-cols-9 gap-2">
-                {Array.from({ length: rows }).map((_, rowIndex) =>
-                    Array.from({ length: seatsPerRow + 1 }).map((_, colIndex) => {
-                        
-                    // Pembagian kursi
-                    if (colIndex === aisleRow) {
-                        return <div key={`aisle-${rowIndex}-${colIndex}`} />;
-                    }
-
-                    const seatNumber = (colIndex < aisleRow ? colIndex + 1 : colIndex) + rowIndex * seatsPerRow;
-                    const isSelected = selectedSeats.includes(seatNumber);
-
-                    return (
-                    <div
-                    key={seatNumber}
-                    onClick={() => toggleSeat(seatNumber)}
-                    className={`w-10 h-10 rounded flex items-center justify-center cursor-pointer
-                    ${isSelected ? "bg-blue-500 text-white" : "bg-gray-300"}`}>
-                        {seatNumber}
-                    </div>
-                    );
-                })
-                )}
-            </div>
-
-            <BuyTicketButton selectedSeats={selectedSeats} />
+        <button
+            onClick={handleConfirmBooking}
+            disabled={selectedSeats.length === 0}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+        >
+            Book
+        </button>
         </main>
-
     );
 }

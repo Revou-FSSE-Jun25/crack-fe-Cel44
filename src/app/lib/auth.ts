@@ -29,9 +29,9 @@ export const removeCookie = (name: string) => {
 
 // Check if user is logged in (based on cookies)
 export const isAuthenticated = (): boolean => {
-    const token = getCookie("auth-token");
-    const username = getCookie("username");
-    return !!(token && username);
+    const token = getCookie("token");
+    const role = getCookie("role");
+    return !!(token && role);
 };
 
 // Logout — clear cookies and redirect to /login
@@ -39,7 +39,7 @@ export const logout = () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (!confirmLogout) return;
 
-    removeCookie("auth-token");
-    removeCookie("username");
+    removeCookie("token");
+    removeCookie("role");
     window.location.href = "/login";
 };

@@ -1,68 +1,60 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
+import { useState } from 'react';
+import { registerUser } from '../lib/api';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: any) {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
-  };
+    const form = e.target;
+
+    try {
+      await registerUser({
+        email: form.email.value,
+        password: form.password.value,
+      });
+
+      alert('User registered successfully');
+      form.reset();
+
+      router.push('/login'); // redirect ke login page
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-400">
-      <div className="w-full max-w-sm bg-gray-200 shadow-lg rounded-xl p-6">
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-md min-h-screen">
+      <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Email */}
-          <div>
-            <label className="text-sm font-medium">Email</label>
-            <input
-              type="email"
-              className="w-full mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300"
-              value={email}
-              required
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@mail.com"
-            />
-          </div>
+        <input name="email"
+        placeholder="Email"
+        type="email"
+        className="border px-3 py-2 rounded-md" />
 
-          {/* Password */}
-          <div>
-            <label className="text-sm font-medium">Password</label>
-            <input
-              type="password"
-              className="w-full mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300"
-              value={password}
-              required
-              minLength={8}
-              maxLength={16}
-              title="Password must be 8-16 characters long and include at least one uppercase and one lowercase letter"
-              pattern="(?=.*[a-z])(?=.*[A-Z]).+"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
-          </div>
+        <input name="password"
+        placeholder="Password"
+        type="password"
+        className="border px-3 py-2 rounded-md" />
 
-          <button
-            type="submit"
-            className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-800 transition"
-          >
-            Register
-          </button>
-        </form>
+        {error && <p className="text-red-500">{error}</p>}
 
-        <p className="text-sm text-center mt-4">
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-600 font-medium hover:underline">
-            Login
-          </a>
-        </p>
-      </div>
+        <button type="submit" className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+          {loading ? 'Registering...' : 'Register'}
+        </button>
+
+      </form>
     </div>
   );
 }

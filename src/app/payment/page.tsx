@@ -1,40 +1,92 @@
-import movies from "@/data/movies.json";
+"use client";
 
-type Props = {
-    searchParams: Promise<{
-        movieId?: string;
-        seats?: string;
-    }>;
-}
+import { useSearchParams, useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { createBooking, getShowtimeById } from "@/src/app/lib/api";
 
-export default async function PaymentPage( { searchParams }: Props) {
-    const params = await searchParams;
-    const movieId = Number(params.movieId);
-    const seats = params.seats?.split(",").map(Number) || [];
-    const movie = movies.find((m) => m.id === movieId);
+export default function PaymentPage() {
+    const params = useParams();
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
-    return (
-        <main className="py-15 bg-black px-20 flex flex-col items-center min-h-screen border-t border-red-500/20">
-            
-            <h1 className="text-3xl text-white font-bold mb-15">TICKET</h1>
-            
-            {movie ? (
-                <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-                    <img src={movie.img} alt={movie.title} className="w-full h-90 object-contain mb-10" />
-                    <h2 className="text-2xl font-semibold mb-2">{movie.title}</h2>
-                    <h2 className="text-xl font-semibold mb-2">Duration: {movie.duration} minutes</h2>
-                    <h2 className="text-xl font-semibold mb-4">Genre: {movie.genre.join(", ")}</h2>
-                    <p className="mb-2">Selected Seats: <span className="font-semibold">{seats.join(", ")}</span></p>
-                    <p className="mb-4">Total: Rp. <span className="font-semibold">{seats.length * movie.price}</span></p>
+    const movieId = params.id;
+    const showtimeId = Number(searchParams.get("showtimeId"));
+    const seatIds = searchParams.get("seats")?.split(",").map(Number) ?? [];
+
+    const [showtime, setShowtime] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem("token"));
+    }, []);
 
 
-                    <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                        Confirm
-                    </button>
-                </div>
-            ) : (
-                <p className="text-red-500">Movie not found.</p>
-            )}
-        </main>
-    );
+    useEffect(() => {
+        if (!token || !showtimeId) return;
+
+        async function fetchData() {
+            try {
+                const data = await getShowtimeById(showtimeId, token!);
+                setShowtime(data);
+
+            } catch (err: any) {
+                setError(err.message || "Failed to load showtime");
+
+            } finally {
+                setLoading(false); // 🔥 INI YANG SEBELUMNYA HILANG
+            }
+        }
+        
+        fetchData();
+    }, [showtimeId, token]);
+
+
+    if (loading) return <p>Loading total ticket...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+    if (!showtime) return <p>Showtime not found</p>;
+
+    const totalPrice = seatIds.length * showtime.price;
+
+    async function handleBooking() {
+        if (!token) return;
+    
+        try {
+            await createBooking(token, {
+                showtimeId: showtime.id,
+                seatIds,
+            });
+            console.log("TOKEN BEFORE REDIRECT:", localStorage.getItem("token"));
+            router.push("/history");
+
+        } catch (err: any) {
+            alert(err.message || "Booking failed");
+        }
+    }
+
+  return (
+    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow min-h-screen flex flex-col items-center">
+        <h1 className="text-2xl font-bold mb-4">Payment</h1>
+
+        {showtime.movie.img && (
+            <img
+                src={showtime.movie.img}
+                alt={showtime.movie.title}
+                className="w-1/2 h-auto object-cover rounded mb-4"
+            />
+        )}
+        <p><b>Movie:</b> {showtime.movie.title}</p>
+        <p><b>Showtime:</b> {new Date(showtime.time).toLocaleString()}</p>
+        <p><b>Seats:</b> {seatIds.join(", ")}</p>
+        <p className="mt-2 font-bold">Total: Rp {totalPrice}</p>
+
+        <button
+            onClick={handleBooking}
+            className="mt-4 w-full bg-green-600 text-white py-2 rounded"
+        >
+            Confirm Payment
+        </button>
+    </div>
+  );
 }
