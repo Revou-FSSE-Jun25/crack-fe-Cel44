@@ -8,6 +8,7 @@ import { setCookie, isAuthenticated } from "../../lib/auth";
 import movies from "../../../../data/movies.json";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
+import { login } from "../../lib/api"
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -71,31 +72,24 @@ export default function LoginPage() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        try{
-            const res = await fetch ('http://localhost:3001/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!res.ok) throw new Error('Login failed');
-
-            const data = await res.json();
-
-            localStorage.setItem('token', data.access_token);
-            localStorage.setItem('role', data.user.role);
       
-            // redirect sesuai role
-            if (data.user.role === 'admin') 
-                router.push('/admin');
-            else 
-                router.push('/movies');
-
-        } catch (error){
-            alert ('login failed')
+        try {
+          const data = await login(email, password);
+      
+          localStorage.setItem('token', data.access_token);
+          localStorage.setItem('role', data.user.role);
+      
+          // redirect sesuai role
+          if (data.user.role === 'admin') {
+            router.push('/admin');
+          } else {
+            router.push('/movies');
+          }
+      
+        } catch (error) {
+          alert('Login failed');
         }
-    }
+      };
 
     return (
 
