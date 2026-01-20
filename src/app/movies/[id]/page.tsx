@@ -7,20 +7,20 @@ import { useParams } from "next/navigation";
 
 export default function MovieDetailPage() {
     const param = useParams();
-    const movieId = param.id;
+    const movieId = param.id as string;
 
     const [movieDetail, setMovieDetail] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         if (!movieId || !token) return;
 
         async function fetchMovie() {
         try {
-            const data = await getMovieById(movieId, token);
+            const data = await getMovieById(movieId, token!);
             setMovieDetail(data);
 
         } catch (err: any) {

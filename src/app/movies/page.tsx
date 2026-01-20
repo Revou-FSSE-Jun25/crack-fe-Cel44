@@ -27,7 +27,7 @@ export default function MoviesPage() {
 
     async function fetchMovies() {
       try {
-        const data = await getMovies(token);
+        const data = await getMovies();
         setMovies(data); // hanya movie dari database
       } catch (err) {
         console.error(err);
