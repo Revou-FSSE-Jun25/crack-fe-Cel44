@@ -8,6 +8,7 @@ import { setCookie, isAuthenticated } from "../../lib/auth";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { login, getMovies } from "../../lib/api"
+import RedirectPage from "./redirect";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -18,22 +19,13 @@ export default function LoginPage() {
 
     const [movies, setMovies] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    
+
     // check if already logged in
     useEffect(() => {
         if (isAuthenticated()) {
         router.push("/movies");
         }
     }, [router]);
-
-    const params = useSearchParams();
-    const redirect = params.get("redirect");
-
-    useEffect(() => {
-        if (redirect) {
-          alert(`Please login to access`);
-        }
-      }, [redirect]);
 
     //handle Login untuk frontend only
     // const handleLogin = async (e: React.FormEvent) => {
@@ -91,26 +83,29 @@ export default function LoginPage() {
         } catch (error) {
           alert('Login failed');
         }
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         async function fetchMovies() {
-              try {
-                const data = await getMovies();
-                setMovies(data); // hanya movie dari database
-              } catch (err) {
-                console.error(err);
-                alert("Failed to load movies");
-              } finally {
-                setLoading(false);
-              }
+            try {
+            const data = await getMovies();
+            setMovies(data); // hanya movie dari database
+            } catch (err) {
+            console.error(err);
+            alert("Failed to load movies");
+            } finally {
+            setLoading(false);
             }
-        
-            fetchMovies();
-          }, [router]);
+        }
+
+        fetchMovies();
+    }, [router]);
 
     return (
-        <Suspense fallback={<>...</>}>
+    
+    <Suspense fallback={<>...</>}>
+        <RedirectPage />
+    
 
     <div>
         
@@ -173,6 +168,8 @@ export default function LoginPage() {
             </div>
         </section>
 
+        {/*    -------------------------- LOGIN SAMPAI DI SINI -------------------- */}
+
         <section className="pt-20 pb-10 text-center">
             <h2 className="text-2xl font-bold text-white mb-10">NOW SHOWING</h2>
 
@@ -205,7 +202,6 @@ export default function LoginPage() {
     </main>
   
     </div> // closes all html
-    
     </Suspense>
   );
 }  
