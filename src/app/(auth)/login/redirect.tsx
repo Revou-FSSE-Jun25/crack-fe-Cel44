@@ -12,4 +12,7 @@ export default function RedirectPage(){
           alert(`Please login to access`);
         }
       }, [redirect]);
+      
+    
+    return null;
 }
