@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { setCookie, isAuthenticated } from "../../lib/auth";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -110,6 +110,7 @@ export default function LoginPage() {
           }, [router]);
 
     return (
+        <Suspense fallback={<>...</>}>
 
     <div>
         
@@ -204,5 +205,7 @@ export default function LoginPage() {
     </main>
   
     </div> // closes all html
+    
+    </Suspense>
   );
 }  
