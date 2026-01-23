@@ -1,6 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-// const BASE_URL = `http://localhost:3001`
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https:localhost:3001';
 
 export async function login(email: string, password: string) {
   const res = await fetch(`${BASE_URL}/auth/login`, {

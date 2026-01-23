@@ -8,7 +8,6 @@ type Props = {
     movieTitle: string;
     showtimes: { id: number; time: string; price: number }[];
 }
-  
 
 export default function ChooseSeatButton({ movieId, showtimes, movieTitle }: Props) {
     const router = useRouter();
@@ -36,7 +35,7 @@ export default function ChooseSeatButton({ movieId, showtimes, movieTitle }: Pro
              onClick={() => setSelectedShowtimeId(st.id.toString())}
              className={`px-4 py-2 rounded border ${
                selectedShowtimeId === st.id.toString() ? "border-red-500 text-red-500" : "border-gray-300"
-             }`}
+             }`} 
            >
              {new Date(st.time).toLocaleString()} - Rp.{st.price}
            </button>

@@ -19,18 +19,17 @@ export default function MovieDetailPage() {
         if (!movieId || !token) return;
 
         async function fetchMovie() {
-        try {
-            const data = await getMovieById(movieId, token!);
-            setMovieDetail(data);
+            try {
+                const data = await getMovieById(movieId, token!);
+                setMovieDetail(data);
 
-        } catch (err: any) {
-            console.error(err);
-            setError(err.message || "Failed to fetch movie");
+            } catch (err: any) {
+                console.error(err);
+                setError(err.message || "Failed to fetch movie");
 
-        } finally {
-            setLoading(false);
-        }
-        
+            } finally {
+                setLoading(false);
+            }
         }
 
         fetchMovie();
