@@ -68,22 +68,24 @@ export default function LoginPage() {
         e.preventDefault();
       
         try {
-          const data = await login(email, password);
-      
-          localStorage.setItem('token', data.access_token);
-          localStorage.setItem('role', data.user.role);
-      
-          // redirect sesuai role
-          if (data.user.role === 'admin') {
-            router.push('/admin');
-          } else {
-            router.push('/movies');
-          }
+            const data = await login(email, password);
+        
+            localStorage.setItem('token', data.access_token);
+            localStorage.setItem('role', data.user.role);
+        
+            // redirect sesuai role
+            if (data.user.role === 'admin') {
+                router.push('/admin');
+            } else {
+                router.push('/movies');
+            }
       
         } catch (error) {
-          alert('Login failed');
+            setError("Invalid email or password");
+        } finally {
+            setError("Invalid email or password");
         }
-    };
+    }
 
     useEffect(() => {
         async function fetchMovies() {
@@ -151,12 +153,22 @@ export default function LoginPage() {
                             placeholder="Password"
                         />
                     </div>
+                    
+
+                    {error && (
+                        <p className="mt-4 text-red-500 text-sm">
+                            {error}
+                        </p>
+                    )}
 
                     <button
-                        type="submit"
-                        className="mt-6 px-8 py-3 bg-red-600 hover:bg-red-800 text-white font-semibold rounded-full shadow-lg transition">
-                            Login
+                      type="submit"
+                      disabled={isLoading}
+                      className="mt-6 px-8 py-3 bg-red-600 hover:bg-red-800 text-white font-semibold rounded-full shadow-lg transition disabled:opacity-50"
+                    >
+                        {isLoading ? "Logging in..." : "Login"}
                     </button>
+
 
                     <Link href="/register">
                         <p className="mt-8 text-gray-500 hover:text-white underline cursor-pointer">
