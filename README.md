@@ -35,5 +35,9 @@ npm run dev
 Database schema and table relationships are documented in:
 - `DATABASE.md`
 
+## Features
+- Loading state uses skeleton for movie list
+- error states are handled and displayed in authentication flow
+
 ## Links
 open in browser: https://crack-fe-cel44-d8q5.vercel.app/

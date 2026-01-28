@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { login, getMovies } from "../../lib/api"
 import RedirectPage from "./redirect";
+import Skeleton from "react-loading-skeleton";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -167,6 +168,12 @@ export default function LoginPage() {
                         </Link>
 
                     </form>
+
+                    {error && (
+                        <p className="mt-3 text-red-500 text-sm text-center">
+                            {error}
+                        </p>
+                    )}
                 </div>
             </section>
 
@@ -175,6 +182,18 @@ export default function LoginPage() {
             <section className="pt-20 pb-10 text-center">
                 <h2 className="text-2xl font-bold text-white mb-10">NOW SHOWING</h2>
 
+                {loading && (
+                    <div className="flex justify-center gap-6 px-4 flex-wrap">
+                    {[1,2,3,4,5].map((i) => (
+                        <div key={i} className="w-40">
+                        <Skeleton height={320} borderRadius={8} />
+                        <Skeleton height={20} className="mt-2" />
+                        </div>
+                    ))}
+                    </div>
+                )}
+
+                {!loading && movies.length > 0 && (
                 <div className="mb-5 px-4 flex justify-center">
                     {movies.length > 0 && (
                         <Swiper
@@ -209,7 +228,7 @@ export default function LoginPage() {
                         </Swiper>
                     )}
                 </div>
-
+                )}
             </section>
 
         </main>
