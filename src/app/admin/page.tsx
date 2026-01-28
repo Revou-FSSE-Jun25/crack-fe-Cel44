@@ -14,7 +14,7 @@ export default function AdminMoviesPage() {
     async function fetchMovies(){
         
         const role = localStorage.getItem('role');
-        if (role !== 'admin')
+        if (role !== 'ADMIN')
             router.push('/login');
 
         const data = await getMovies();

@@ -14,7 +14,7 @@ export default function MoviesPage() {
 
     useEffect(() => {
         const role = localStorage.getItem("role");
-        if (role !== "user") {
+        if (role !== "USER") {
         router.push("/login");
         return;
         }
@@ -44,37 +44,44 @@ export default function MoviesPage() {
 
     return (
         <div className="py-10 bg-gray-100">
-            <h2 className="text-2xl font-extrabold text-black text-center mb-10">
-                NOW SHOWING
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <Swiper
-                modules={[Navigation, Autoplay]}
-                navigation={false}
-                autoplay={{ delay: 3000 }}
-                slidesPerView={3}
-                spaceBetween={20}
-                >
-                {movies.map((movie) => (
-                    <SwiperSlide key={movie.id} className="overflow-visible">
-                    <Link href={`/movies/${movie.id}`}>
-                        <div className="flex flex-col items-center rounded-lg hover:scale-105 transition-transform">
-                        <img
-                            src={movie.img}
-                            alt={movie.title}
-                            className="rounded-xl mb-2 w-64 h-auto object-cover"
-                        />
-                        <h3 className="text-black font-semibold text-lg text-center">
-                            {movie.title}
-                        </h3>
-                        </div>
-                    </Link>
-                    </SwiperSlide>
-                ))}
-                </Swiper>
-
-            </div>
+          <h2 className="text-2xl font-extrabold text-black text-center mb-10">
+            NOW SHOWING
+          </h2>
+      
+          <div className="flex justify-center px-4">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              navigation={false}
+              autoplay={{ delay: 3000 }}
+              spaceBetween={20}
+              centeredSlides={false}
+              breakpoints={{
+                0: {slidesPerView: 1,},
+                640: {slidesPerView: 2,},
+                768: {slidesPerView: 3,},
+                1024: {slidesPerView: 4,},
+              }}
+              className="w-full max-w-7xl"
+            >
+              {movies.map((movie) => (
+                <SwiperSlide key={movie.id}>
+                  <Link href={`/movies/${movie.id}`}>
+                    <div className="flex flex-col items-center rounded-lg hover:scale-105 transition-transform">
+                      <img
+                        src={movie.img}
+                        alt={movie.title}
+                        className="rounded-xl mb-2 w-64 h-64 object-cover"
+                      />
+                      <h3 className="text-black font-semibold text-lg text-center">
+                        {movie.title}
+                      </h3>
+                    </div>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
-    );
+      );
+      
 }

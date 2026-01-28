@@ -20,13 +20,6 @@ export default function LoginPage() {
     const [movies, setMovies] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // check if already logged in
-    useEffect(() => {
-        if (isAuthenticated()) {
-        router.push("/movies");
-        }
-    }, [router]);
-
     //handle Login untuk frontend only
     // const handleLogin = async (e: React.FormEvent) => {
     //     e.preventDefault();
@@ -74,10 +67,10 @@ export default function LoginPage() {
             localStorage.setItem('role', data.user.role);
         
             // redirect sesuai role
-            if (data.user.role === 'admin') {
-                router.push('/admin');
+            if (data.user.role === 'ADMIN') {
+                router.replace('/admin');
             } else {
-                router.push('/movies');
+                router.replace('/movies');
             }
       
         } catch (error) {
@@ -106,116 +99,122 @@ export default function LoginPage() {
     <Suspense fallback={<>...</>}>
         <RedirectPage />
     
-
-    <div>
-        
-    <main className="bg-black min-h-screen">
-        
-        <section className="relative h-[70vh] w-full">
+        <div>
             
-            {/* ----------------------- Background Image ----------------------- */}
-            <Image
-                src="/heronew.jpg"
-                alt="Cinema background"
-                fill
-                className="object-cover brightness-50"
-                loading="eager"
-            />
-
-            {/* Text Overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+        <main className="bg-black min-h-screen">
+            
+        <section className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] w-full">
                 
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                Easier Movie Booking Experience
-                </h1>
+                {/* ----------------------- Background Image ----------------------- */}
+                <Image
+                    src="/heronew.jpg"
+                    alt="Cinema background"
+                    fill
+                    className="object-cover brightness-50"
+                    loading="eager"
+                />
 
-                <form onSubmit={handleLogin} className="mt-8 p-6 sm:p-8 w-full sm:w-[400px]">
-                    <div>
-                        <input
-                            id = "email"
-                            type="text"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border bg-white rounded-full px-10 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
-                            placeholder="Username/Email"
-                        />
-                    </div>
-
-                    <div>
-                        <input
-                            id = "password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="mt-2 w-full border bg-white rounded-full px-10 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
-                            placeholder="Password"
-                        />
-                    </div>
+                {/* Text Overlay */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
                     
+                    <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white">
+                    Easier Movie Booking Experience
+                    </h1>
 
-                    {error && (
-                        <p className="mt-4 text-red-500 text-sm">
-                            {error}
-                        </p>
-                    )}
-
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="mt-6 px-8 py-3 bg-red-600 hover:bg-red-800 text-white font-semibold rounded-full shadow-lg transition disabled:opacity-50"
-                    >
-                        {isLoading ? "Logging in..." : "Login"}
-                    </button>
-
-
-                    <Link href="/register">
-                        <p className="mt-8 text-gray-500 hover:text-white underline cursor-pointer">
-                            Don't have an account? Register here.
-                        </p>
-                    </Link>
-
-                </form>
-            </div>
-        </section>
-
-        {/*    -------------------------- LOGIN SAMPAI DI SINI -------------------- */}
-
-        <section className="pt-20 pb-10 text-center">
-            <h2 className="text-2xl font-bold text-white mb-10">NOW SHOWING</h2>
-
-            <div className="mb-5 px-4">
-                {movies.length > 0 && (
-                    <Swiper
-                    key={movies.length}
-                    className="w-full"
-                    modules={[Navigation, Autoplay]}
-                    autoplay={{ delay: 3000 }}
-                    slidesPerView={5}
-                    spaceBetween={20}
-                    loop
-                    >
-                    {movies.map((movie) => (
-                        <SwiperSlide key={movie.id}>
-                        <Link href={`/movies/${movie.id}`}>
-                            <div className="rounded-lg hover:scale-105 transition-transform">
-                            <img
-                                src={movie.img}
-                                alt={movie.title}
-                                className="bg-white p-0.5 rounded-md w-full h-80 object-cover"
+                    <form onSubmit={handleLogin} className="mt-8 p-4 sm:p-6 w-full max-w-sm sm:max-w-md">
+                        <div>
+                            <input
+                                id = "email"
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full border bg-white rounded-full px-10 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+                                placeholder="Username/Email"
                             />
-                            </div>
+                        </div>
+
+                        <div>
+                            <input
+                                id = "password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="mt-2 w-full border bg-white rounded-full px-10 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 text-center"
+                                placeholder="Password"
+                            />
+                        </div>
+                        
+
+                        {error && (
+                            <p className="mt-4 text-red-500 text-sm">
+                                {error}
+                            </p>
+                        )}
+
+                        <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="mt-6 px-8 py-3 bg-red-600 hover:bg-red-800 text-white font-semibold rounded-full shadow-lg transition disabled:opacity-50"
+                        >
+                            {isLoading ? "Logging in..." : "Login"}
+                        </button>
+
+
+                        <Link href="/register">
+                            <p className="mt-8 text-gray-500 hover:text-white underline cursor-pointer">
+                                Don't have an account? Register here.
+                            </p>
                         </Link>
-                        </SwiperSlide>
-                    ))}
-                    </Swiper>
-                )}
-            </div>
 
-        </section>
+                    </form>
+                </div>
+            </section>
 
-    </main>
-  
-    </div> 
+            {/*    -------------------------- LOGIN SAMPAI DI SINI -------------------- */}
+
+            <section className="pt-20 pb-10 text-center">
+                <h2 className="text-2xl font-bold text-white mb-10">NOW SHOWING</h2>
+
+                <div className="mb-5 px-4 flex justify-center">
+                    {movies.length > 0 && (
+                        <Swiper
+                        key={movies.length}
+                        className="w-full"
+                        modules={[Navigation, Autoplay]}
+                        autoplay={{ delay: 3000 }}
+                        slidesPerView={5}
+                        spaceBetween={20}
+                        breakpoints={{
+                            0: {slidesPerView: 1.2,},
+                            640: {slidesPerView: 2,},
+                            768: {slidesPerView: 3,},
+                            1024: {slidesPerView: 4,},
+                            1280: {slidesPerView: 5,},
+                          }}
+                        loop
+                        >
+                        {movies.map((movie) => (
+                            <SwiperSlide key={movie.id}>
+                            <Link href={`/movies/${movie.id}`}>
+                                <div className="rounded-lg hover:scale-105 transition-transform">
+                                <img
+                                    src={movie.img}
+                                    alt={movie.title}
+                                    className="bg-white p-0.5 rounded-md w-56 h-56 sm:h-64 sm:w-64 md:h-72 md:w-72 lg:h-80 lg-w-80 object-cover"
+                                />
+                                </div>
+                            </Link>
+                            </SwiperSlide>
+                        ))}
+                        </Swiper>
+                    )}
+                </div>
+
+            </section>
+
+        </main>
+    
+        </div> 
     </Suspense>
   );
 }  
