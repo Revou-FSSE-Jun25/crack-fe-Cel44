@@ -50,7 +50,7 @@ export default function RegisterPage() {
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <button type="submit" className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+        <button type="submit" onClick={handleSubmit} className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
           {loading ? 'Registering...' : 'Register'}
         </button>
 
