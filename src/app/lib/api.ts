@@ -114,11 +114,19 @@ export async function registerUser(user: { email: string; password: string }) {
   });
 
   if (!res.ok) {
-    const errorData = await res.json();
-    throw new Error(errorData.message || 'Register failed');
+    let errorMsg = 'Register failed';
+    try {
+      const errorData = await res.json();
+      if (errorData?.message) errorMsg = errorData.message;
+
+    } catch (err) {
+      console.warn('Cannot parse error JSON:', err);
+
+    }
+    throw new Error(errorMsg);
   }
 
-  return res.json();
+  return await res.json();
 }
 
 // --------------------- SHOWTIME

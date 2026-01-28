@@ -21,43 +21,6 @@ export default function LoginPage() {
     const [movies, setMovies] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    //handle Login untuk frontend only
-    // const handleLogin = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     setError("");
-    //     setIsLoading(true);
-
-    // try {
-    //     const data = {accessToken: "mock-access-token-123",
-    //     refreshToken: "mock-refresh-token-xyz",
-    //     username: username
-    //     };
-
-    //     // login data from API
-    //     // const data = await api.login(username, password);
-    //     // console.log("Login successful:", data);
-
-    //     // manually set cookies data
-    //     setCookie('auth-token', data.accessToken, 30);
-    //     setCookie("refreshToken", data.refreshToken, 30);
-    //     setCookie('username', data.username, 30);
-
-    //     alert(`Welcome ${data.username}!`);
-
-    //     if (username === "admin") {
-    //         router.push("/admin");
-    //       } else {
-    //         router.push("/movies");
-    //       }
-
-    //     alert("Login successful!");
-
-    // } catch (error) {
-    //     setError("Invalid username and password");
-    // } finally {
-    //     setIsLoading(false);
-    // }
-
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
       
