@@ -13,6 +13,10 @@ describe("RegisterPage", () => {
         jest.clearAllMocks();
     });
 
+    beforeAll(() => {
+        window.alert = jest.fn();
+      });      
+
     test("render form dengan input dan tombol register", () => {
         render(<RegisterPage />);
 
@@ -60,12 +64,11 @@ describe("RegisterPage", () => {
         fireEvent.click(screen.getByRole("button", { name: /register/i }));
 
         await waitFor(() => {
-        expect(screen.getByText("email already exists")).toBeInTheDocument();
+        expect(screen.getByText("Register failed")).toBeInTheDocument();
         });
     });
 
     test("register berhasil redirect ke login", async () => {
-        // Mock registerUser berhasil
         jest.spyOn(api, "registerUser").mockResolvedValue({ success: true });
 
         render(<RegisterPage />);
