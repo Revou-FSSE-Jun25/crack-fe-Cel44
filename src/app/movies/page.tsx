@@ -48,7 +48,7 @@ export default function MoviesPage() {
                 NOW SHOWING
             </h2>
 
-            <div className="flex justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <Swiper
                 modules={[Navigation, Autoplay]}
                 navigation={false}

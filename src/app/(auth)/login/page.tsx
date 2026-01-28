@@ -82,8 +82,6 @@ export default function LoginPage() {
       
         } catch (error) {
             setError("Invalid email or password");
-        } finally {
-            setError("Invalid email or password");
         }
     }
 
@@ -127,11 +125,11 @@ export default function LoginPage() {
             {/* Text Overlay */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
                 
-                <h1 className="text-4xl md:text-4xl font-bold text-white drop-shadow-lg">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                 Easier Movie Booking Experience
                 </h1>
 
-                <form onSubmit={handleLogin} className="mt-8 p-8">
+                <form onSubmit={handleLogin} className="mt-8 p-6 sm:p-8 w-full sm:w-[400px]">
                     <div>
                         <input
                             id = "email"
@@ -185,35 +183,39 @@ export default function LoginPage() {
         <section className="pt-20 pb-10 text-center">
             <h2 className="text-2xl font-bold text-white mb-10">NOW SHOWING</h2>
 
-            <div className="mb-5 flex flex-wrap justify-center gap-6 px-4">
-
-            <Swiper
-                modules={[Navigation, Autoplay]}
-                navigation = {false}
-                autoplay={{ delay: 3000 }}
-                slidesOffsetBefore={100}
-                slidesPerView={3}
-                spaceBetween={10}
-                loop={true}
-                >
-                
-                {movies.map((movie) => (
-                    <SwiperSlide key={movie.id}>
-                    <Link href={`/movies/${movie.id}`} key={movie.id}>
-                    <div key={movie.id} className="m-4 rounded-lg w-55 hover:scale-105 transition-transform">
-                        <img src={movie.img} alt={movie.title} className="bg-white p-0.5 rounded-md mb-3 w-full h-80 object-cover" />
-                    </div>
-                    </Link>
-                    </SwiperSlide>
-                ))}
-                    
-                </Swiper>
+            <div className="mb-5 px-4">
+                {movies.length > 0 && (
+                    <Swiper
+                    key={movies.length}
+                    className="w-full"
+                    modules={[Navigation, Autoplay]}
+                    autoplay={{ delay: 3000 }}
+                    slidesPerView={5}
+                    spaceBetween={20}
+                    loop
+                    >
+                    {movies.map((movie) => (
+                        <SwiperSlide key={movie.id}>
+                        <Link href={`/movies/${movie.id}`}>
+                            <div className="rounded-lg hover:scale-105 transition-transform">
+                            <img
+                                src={movie.img}
+                                alt={movie.title}
+                                className="bg-white p-0.5 rounded-md w-full h-80 object-cover"
+                            />
+                            </div>
+                        </Link>
+                        </SwiperSlide>
+                    ))}
+                    </Swiper>
+                )}
             </div>
+
         </section>
 
     </main>
   
-    </div> // closes all html
+    </div> 
     </Suspense>
   );
 }  

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https:localhost:3001';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export async function login(email: string, password: string) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -18,6 +18,7 @@ export async function login(email: string, password: string) {
 
 
 export async function getMovies(){
+    console.log("API URL:", BASE_URL);
 
     try {
         const res = await fetch (`${BASE_URL}/movies`);
